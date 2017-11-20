@@ -1,0 +1,41 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: guestbook
+  labels:
+    name: guestbook
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: guestbook
+    spec:
+      containers:
+      - name: guestbook
+        image: gcr.io/<PROJECT>/guestbook:v1
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: secrets
+          mountPath: /etc/secrets
+          readOnly: true
+      volumes:
+      - name: secrets
+        secret:
+          secretName: db-passwords
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: guestbook
+  labels:
+    name: guestbook
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 8080
+  selector:
+    name: guestbook
