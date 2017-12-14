@@ -1,0 +1,51 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: celery-worker
+  labels:
+    name: celery-worker
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: celery-worker
+    spec:
+      containers:
+      - name: celery-worker
+        image: gcr.io/<PROJECT>/celery-worker:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: secrets
+          mountPath: /etc/secrets
+          readOnly: true
+      volumes:
+      - name: secrets
+        secret:
+          secretName: db-passwords
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: celery-beat
+  labels:
+    name: celery-beat
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: celery-beat
+    spec:
+      containers:
+      - name: celery-beat
+        image: gcr.io/<PROJECT>/celery-beat:v1
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: secrets
+          mountPath: /etc/secrets
+          readOnly: true
+      volumes:
+      - name: secrets
+        secret:
+          secretName: db-passwords

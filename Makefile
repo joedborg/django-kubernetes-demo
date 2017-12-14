@@ -5,6 +5,7 @@ PASSWORD:=$(shell openssl rand -hex 32 | base64)
 templates:
 	sed "s/<PASSWORD>/${PASSWORD}/g" secrets.yaml.tmpl > secrets.yaml
 	sed "s/<PROJECT>/${PROJECT}/g" guestbook.yaml.tmpl > guestbook.yaml
+	sed "s/<PROJECT>/${PROJECT}/g" celery.yaml.tmpl > celery.yaml
 	sed "s/<PROJECT>/${PROJECT}/g" postgres.yaml.tmpl > postgres.yaml
 	sed "s/<PROJECT>/${PROJECT}/g" redis.yaml.tmpl > redis.yaml
 

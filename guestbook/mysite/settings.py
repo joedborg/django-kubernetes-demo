@@ -22,6 +22,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_results',
     'guestbook'
 )
 
@@ -98,6 +99,8 @@ CACHES = {
         },
     },
 }
+
+CELERY_RESULT_BACKEND = 'django-cache'
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.8/topics/i18n/
