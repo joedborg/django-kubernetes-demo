@@ -11,3 +11,11 @@ templates:
 .PHONY: clean
 clean:
 	rm -f *.yaml
+
+.PHONY: tests
+tests: templates
+	echo ${PASSWORD}
+	if [ ! -f "secrets.yaml" ]; then exit 1; fi;
+	if [ ! -f "guestbook.yaml" ]; then exit 1; fi;
+	if [ ! -f "postgres.yaml" ]; then exit 1; fi;
+	if [ ! -f "redis.yaml" ]; then exit 1; fi;
